@@ -16,7 +16,7 @@
 #label{
   @apply font-bold;
 }
-input, textarea{
+input:not([type="checkbox"]), textarea{
   @apply px-5 py-2 focus:outline-none rounded-sm w-[500px];
 }
 

@@ -20,7 +20,9 @@ const List = ({posts, setPosts}) => {
                                 <figure className="w-[400px]">
                                     <img src={p.image} alt={p.title} onError={addImageFallback}/>
                                 </figure>
-                                <p className="text-slate-500">{p.description}</p>
+                                <p className="text-slate-500">{p.content}</p>
+                                <p>{p.tags}</p>
+                                <p>{p.category}</p>
                             </div>
                             <Delete index={i} handleDelete={setPosts}/>
                         </div>

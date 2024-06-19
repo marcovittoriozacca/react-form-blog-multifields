@@ -1,59 +1,93 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import List from "./List";
 
 const Form = () => {
+    const resetFormData = {
+        title: '',
+        content: '',
+        image: '',
+        category: '',
+        tags: [],
+    }
+    const categories = ["Travel", "Food & Drink", "Technology", "Lifestyle", "Fitness & Health"];
+    const tags = ["Travel", "Food", "Technology", "Lifestyle", "Fitness", "Health", "DIY", "Fashion"];
+
+    // post object with setPost 
+    const [post, setPost] = useState(resetFormData);
+
+    //posts list containing all of our posts with setPostsList
+    const [postsList, setPostsList] = useState([]);
+
 
     //prevent the form from reloading the page on submit
     const handleSubmit = (e) => {
         e.preventDefault();
     }
     
-    //new post creation function
+    //new post creation function with a super basic non bulletproof validation
     const createPost = () => {
-
-        const {title,description, image} = post;
-    
-        if(!title || !description){
-            throw new Error("😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔😔")    
+        const {title, content, category, tags} = post;
+        if(!title || title.trim().length === 0 || !content || content.trim().length === 0 || !category || tags.length < 1){
+            throw new Error("😔😔😔😔😔😔😔😔😔😔😔😔😔😔 Just do it properly 😔😔😔😔😔😔😔😔😔😔😔😔😔😔")
         }
         setPostsList((posts) => [post, ...posts]);
-
-        setPost({
-            title: '',
-            description: '',
-            image: '',
-        });
+        setPost(resetFormData);
     }
 
-    // post object with setPost 
-    const [post, setPost] = useState({
-        title: '',
-        description: '',
-        image: '',
-    });
-
-    //posts list containing all of our posts with setPostsList
-    const [postsList, setPostsList] = useState([]);
+    //general function to update every key inside our post object
+    const handlePostElement = (e) => {
+        setPost(curr => ({...curr, [e.target.name]: e.target.value}))
+    }
+    
+    //specific function to handle checkboxes change for our post
+    const handleCheckboxElements = (tag) => {
+        setPost((curr) => ({...post, tags: post.tags.includes(tag)? post.tags.filter( (t) => t !== tag ) : [...post.tags, tag] }) )
+    }
 
     return(<>
         <form className="formStyle" onSubmit={handleSubmit}>
             {/* title input field */}
             <div className="inputWrapper">
                 <label htmlFor="title" id="label">Title</label>
-                <input type="text" id="title" value={post.title} onChange={(e) => setPost({...post, title: e.target.value})} />
+                <input type="text" id="title" value={post.title} name="title" onChange={handlePostElement} />
             </div>
 
-            {/* description input field */}
+            {/* content input field */}
             <div className="inputWrapper">
-                <label htmlFor="description" id="label">Description</label>
-                <textarea name="" id="description" cols="30" rows="10" value={post.description} onChange={(e) => setPost({...post, description: e.target.value})} ></textarea>
+                <label htmlFor="content" id="label">Content</label>
+                <textarea name="content" id="content" cols="30" rows="10" value={post.content} onChange={handlePostElement}></textarea>
             </div>
 
             {/* image input field */}
             <div className="inputWrapper">
                 <label htmlFor="image" id="label">Image</label>
-                <input type="text" id="image" value={post.image} onChange={(e) => setPost({...post, image: e.target.value})} />
+                <input type="text" id="image" name="image" value={post.image} onChange={handlePostElement} />
             </div>
+
+            {/* select category field */}
+            <div className="inputWrapper">
+                <label htmlFor="category">Category</label>
+                <select name="category" id="category" onChange={handlePostElement}>
+                    <option value="">Select a category...</option>
+                    {categories.map((cat, i) => (
+                        <option key={`category-${i}`} value={cat}>{cat}</option>
+                    ))}
+                </select>
+            </div>
+
+            {/* checkbox tags field */}
+            {tags.map( (tag,i) => (
+                <div key={`tags-${i}`} className="flex items-center gap-x-3">
+                    <label htmlFor={tag}> {tag} </label>
+                    <input 
+                        type="checkbox" 
+                        name="tags" 
+                        id={tag} 
+                        checked={post.tags.includes(tag)}
+                        onChange={() => handleCheckboxElements(tag)}
+                        />
+                </div>
+            ) )}
 
             <button type="submit" className="createBtn" onClick={createPost}>Create</button>
         </form>
