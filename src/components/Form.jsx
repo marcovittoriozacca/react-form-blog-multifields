@@ -61,7 +61,6 @@ const Form = () => {
         setPost((curr) => ({...curr, published: published}))
     }, [published])
 
-
     return(<>
         <form className="formStyle" onSubmit={handleSubmit}>
             {/* title input field */}

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .formStyle{
-  @apply flex flex-col items-center gap-y-5 p-10 rounded-sm m-5 bg-neutral-200 w-min mx-auto;
+  @apply flex flex-col items-center gap-y-5 p-10 rounded-sm bg-neutral-200 w-min mx-auto;
 }
 
 .inputWrapper{
@@ -23,4 +23,7 @@ input:not([type="checkbox"]), textarea{
 img{
   max-width: 100%;
   height: auto;
+}
+main{
+  @apply p-10
 }
