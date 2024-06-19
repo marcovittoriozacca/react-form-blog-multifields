@@ -8,6 +8,7 @@ const Form = () => {
         image: '',
         category: '',
         tags: [],
+        published: false,
     }
     const categories = ["Travel", "Food & Drink", "Technology", "Lifestyle", "Fitness & Health"];
     const tags = ["Travel", "Food", "Technology", "Lifestyle", "Fitness", "Health", "DIY", "Fashion"];
@@ -18,6 +19,9 @@ const Form = () => {
     //posts list containing all of our posts with setPostsList
     const [postsList, setPostsList] = useState([]);
 
+    const [published, setPublished] = useState(false);
+
+    
 
     //prevent the form from reloading the page on submit
     const handleSubmit = (e) => {
@@ -32,17 +36,31 @@ const Form = () => {
         }
         setPostsList((posts) => [post, ...posts]);
         setPost(resetFormData);
+        setPublished(false);
     }
 
     //general function to update every key inside our post object
     const handlePostElement = (e) => {
         setPost(curr => ({...curr, [e.target.name]: e.target.value}))
     }
-    
+
     //specific function to handle checkboxes change for our post
     const handleCheckboxElements = (tag) => {
         setPost((curr) => ({...post, tags: post.tags.includes(tag)? post.tags.filter( (t) => t !== tag ) : [...post.tags, tag] }) )
     }
+    //change the value of the published state
+    const handlePublishing = (e) => {
+        setPublished((curr) => e.target.checked)
+    }
+    
+    
+    useEffect(()=>{
+        if(published){
+            alert("This Post will be published")
+        }
+        setPost((curr) => ({...curr, published: published}))
+    }, [published])
+
 
     return(<>
         <form className="formStyle" onSubmit={handleSubmit}>
@@ -67,7 +85,7 @@ const Form = () => {
             {/* select category field */}
             <div className="inputWrapper">
                 <label htmlFor="category">Category</label>
-                <select name="category" id="category" onChange={handlePostElement}>
+                <select name="category" id="category" value={post.category} onChange={handlePostElement}>
                     <option value="">Select a category...</option>
                     {categories.map((cat, i) => (
                         <option key={`category-${i}`} value={cat}>{cat}</option>
@@ -88,6 +106,12 @@ const Form = () => {
                         />
                 </div>
             ) )}
+
+            {/* published checkbox field */}
+            <div>
+                <label htmlFor="published">Publish post</label>
+                <input type="checkbox" name="published" id="published" checked={published} onChange={(e) => handlePublishing(e)} />
+            </div>
 
             <button type="submit" className="createBtn" onClick={createPost}>Create</button>
         </form>

@@ -23,6 +23,7 @@ const List = ({posts, setPosts}) => {
                                 <p className="text-slate-500">{p.content}</p>
                                 <p>{p.tags}</p>
                                 <p>{p.category}</p>
+                                <p>{p.published? "published" : "not published yet"}</p>
                             </div>
                             <Delete index={i} handleDelete={setPosts}/>
                         </div>
