@@ -65,37 +65,39 @@ const Form = () => {
         <form className="formStyle" onSubmit={handleSubmit}>
             {/* title input field */}
             <div className="inputWrapper">
-                <label htmlFor="title" id="label">Title</label>
+                <label htmlFor="title" className="label">Title</label>
                 <input type="text" id="title" value={post.title} name="title" onChange={handlePostElement} />
             </div>
 
             {/* content input field */}
             <div className="inputWrapper">
-                <label htmlFor="content" id="label">Content</label>
+                <label htmlFor="content" className="label">Content</label>
                 <textarea name="content" id="content" cols="30" rows="10" value={post.content} onChange={handlePostElement}></textarea>
             </div>
 
-            {/* image input field */}
-            <div className="inputWrapper">
-                <label htmlFor="image" id="label">Image</label>
-                <input type="text" id="image" name="image" value={post.image} onChange={handlePostElement} />
-            </div>
+            <div className="flex items-center gap-x-10">
+                {/* image input field */}
+                <div className="inputWrapper">
+                    <label htmlFor="image" className="label">Image</label>
+                    <input type="text" id="image" name="image" value={post.image} onChange={handlePostElement} />
+                </div>
 
-            {/* select category field */}
-            <div className="inputWrapper">
-                <label htmlFor="category">Category</label>
-                <select name="category" id="category" value={post.category} onChange={handlePostElement}>
-                    <option value="">Select a category...</option>
-                    {categories.map((cat, i) => (
-                        <option key={`category-${i}`} value={cat}>{cat}</option>
-                    ))}
-                </select>
+                {/* select category field */}
+                <div className="inputWrapper">
+                    <label htmlFor="category" className="label">Category</label>
+                    <select name="category" id="category" value={post.category} onChange={handlePostElement}>
+                        <option value="">Select a category...</option>
+                        {categories.map((cat, i) => (
+                            <option key={`category-${i}`} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             {/* checkbox tags field */}
             {tags.map( (tag,i) => (
                 <div key={`tags-${i}`} className="flex items-center gap-x-3">
-                    <label htmlFor={tag}> {tag} </label>
+                    <label htmlFor={tag} className="label"> {tag} </label>
                     <input 
                         type="checkbox" 
                         name="tags" 
@@ -107,8 +109,8 @@ const Form = () => {
             ) )}
 
             {/* published checkbox field */}
-            <div>
-                <label htmlFor="published">Publish post</label>
+            <div className="flex items-center gap-x-3 bg-neutral-300 p-3">
+                <label htmlFor="published" className="label">Publish post</label>
                 <input type="checkbox" name="published" id="published" checked={published} onChange={(e) => handlePublishing(e)} />
             </div>
 

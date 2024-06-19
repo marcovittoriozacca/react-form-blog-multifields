@@ -21,9 +21,12 @@ const List = ({posts, setPosts}) => {
                                     <img src={p.image} alt={p.title} onError={addImageFallback}/>
                                 </figure>
                                 <p className="text-slate-500">{p.content}</p>
-                                <p>{p.tags}</p>
-                                <p>{p.category}</p>
-                                <p>{p.published? "published" : "not published yet"}</p>
+                                <div className="flex items-center gap-x-3">
+                                {/* <span>{p.tags}</span> */}
+                                {p.tags.map(t => (<span key={`showPostTags-${i}`}>{t}</span>))} -
+                                <span className=" font-bold bg-neutral-300 p-3">{p.category}</span>
+                                </div>
+                                <p className={p.published? "text-green-500" : "text-red-600"}>{p.published? "published" : "not published yet"}</p>
                             </div>
                             <Delete index={i} handleDelete={setPosts}/>
                         </div>
